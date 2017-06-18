@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>PrestoQuery</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/jquery-ui.min.css" rel="stylesheet">
+<link type="text/css"
+	href="../css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+<script src="../js/lib/jquery.js"></script>
+<script src="../js/lib/jquery-ui-1.10.0.custom.min.js"
+	type="text/javascript"></script>
+<script src="../js/lib/bootstrap.min.js"></script>
+<script src="../js/lib/d3.min.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
+<script type="text/javascript" src="../js/lib/pdq.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+$(function(){
+	var tabs = $("#tabs").tabs({
+		activate : function(event, ui) {
+			tab_id=ui.newPanel.attr('id');
+			doneQueries(tab_id);
+		}
+	});
+	doneQueries('FINISHED');
+});
+
+</script>
+
+</head>
+
+<body style="padding: 5px;">
+	<div id="query-executions-tab">
+		<div id="tabs" style="border: 0px;">
+			<ul>
+				<li><a href="#FINISHED">已完成的查询</a></li>
+				<li><a href="#FAILED">已失败的查询</a></li>
+				<li><a href="#CANCELED">已取消的查询</a></li>
+			</ul>
+			<div id='FINISHED' style="padding: 0px; margin-top: 0px;">
+				<table id="done-FINISHED" class="table table-striped">
+					<colgroup>
+						<col width="90px">
+						<col width="80px">
+						<col width="auto">
+						<col width="80px">
+						<col width="90px">
+						<col width="80px">
+						<col width="100px">
+						<col width="100px">
+						<col width="100px">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>查询Id</th>
+							<th>耗时</th>
+							<th>SQL</th>
+							<th>用户</th>
+							<th>状态</th>
+							<th>出错数</th>
+							<th>已完数</th>
+							<th>分片数</th>
+							<th>完成率</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div id='FAILED' style="padding: 0px; margin-top: 0px;">
+				<table id="done-FAILED" class="table table-striped">
+					<colgroup>
+						<col width="90px">
+						<col width="80px">
+						<col width="auto">
+						<col width="80px">
+						<col width="90px">
+						<col width="80px">
+						<col width="100px">
+						<col width="100px">
+						<col width="100px">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>查询Id</th>
+							<th>耗时</th>
+							<th>SQL</th>
+							<th>用户</th>
+							<th>状态</th>
+							<th>出错数</th>
+							<th>完成数</th>
+							<th>分片数</th>
+							<th>完成率</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div id='CANCELED' style="padding: 0px; margin-top: 0px;">
+				<table id="done-FAILED" class="table table-striped">
+					<colgroup>
+						<col width="90px">
+						<col width="80px">
+						<col width="auto">
+						<col width="80px">
+						<col width="90px">
+						<col width="80px">
+						<col width="100px">
+						<col width="100px">
+						<col width="100px">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>查询Id</th>
+							<th>耗时</th>
+							<th>SQL</th>
+							<th>用户</th>
+							<th>状态</th>
+							<th>出错数</th>
+							<th>完成数</th>
+							<th>分片数</th>
+							<th>完成率</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</body>
+
+</html>

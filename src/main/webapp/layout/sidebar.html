@@ -1,0 +1,110 @@
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar  ">
+
+    <!-- Sidebar user panel (optional) -->
+<!--     <div class="user-panel">
+        <div class="pull-left image">
+            <img src="{{user.avatar}}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p>{{user.username}}</p>
+        </div>
+    </div> -->
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu">
+        <!-- <li class="header">MENU</li> -->
+              <!-- Config -->
+     <li ui-sref-active="active" >
+         <a ui-sref="config.widget"><i class="fa fa-line-chart"></i>{{'SIDEBAR.WIDGET'|translate}}</a>
+     </li>
+     <li ui-sref-active="active" >
+         <a ui-sref="config.board"><i class="fa fa-puzzle-piece"></i>{{'SIDEBAR.DASHBOARD'|translate}}</a>
+     </li>
+     <li ui-sref-active="active" >
+         <a ui-sref="config.category"><i class="fa fa-folder"></i>{{'SIDEBAR.DASHBOARD_CATEGORY'|translate}}</a>
+     </li>
+                     
+<!--      <li class="treeview" ui-sref-active="active">
+            <a ui-sref="config">
+                <i class="fa fa-cog"></i>
+                <span>{{'SIDEBAR.CONFIG'|translate}}</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>          
+            <ul class="treeview-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="config.widget"><i class="fa fa-line-chart"></i>{{'SIDEBAR.WIDGET'|translate}}</a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="config.board"><i class="fa fa-puzzle-piece"></i>{{'SIDEBAR.DASHBOARD'|translate}}</a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="config.category"><i class="fa fa-folder"></i>{{'SIDEBAR.DASHBOARD_CATEGORY'|translate}}</a>
+                </li>
+            </ul>
+        </li> -->
+        
+        <!-- DashBoard -->
+        <li class="treeview" ui-sref-active="active">
+            <a ui-sref="dashboard">
+                <i class="fa fa-th"></i>
+                <span>{{'SIDEBAR.C_DASHBOARD'|translate}}</span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+            </a>
+            <ul class="treeview-menu">
+                <li ui-sref-active="active" ng-repeat="c in categoryList">
+                    <a ui-sref="dashboard.category({category:c.name})">
+                        <i class="fa fa-folder"></i>
+                            {{c.name}}
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu menu-open">
+                        <li ui-sref-active="active" ng-repeat="b in boardList | filter:{categoryId:c.id}">
+                            <a ui-sref="dashboard.category.view({id:b.id,category:c.name})">
+                            	<i class="fa fa-dashboard"></i>{{b.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        
+        <li class="treeview" ui-sref-active="active">
+            <a ui-sref="mine">
+                <i class="fa fa-th"></i>
+                <span>{{'SIDEBAR.MY_DASHBOARD'|translate}}</span>
+                <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+            </a>
+            <ul class="treeview-menu">
+                <li ui-sref-active="active" ng-repeat="b in boardList | filter:{userId:user.userId}">
+                    <a ui-sref="mine.view({id:b.id})"><i class="fa fa-dashboard"></i>{{b.name}}</a>
+                </li>
+            </ul>
+        </li>
+        
+  
+        <!-- Admin -->
+   <!--   <li class="treeview" ui-sref-active="active">
+            <a ui-sref="admin">
+                <i class="fa fa-cog"></i>
+                <span>{{'SIDEBAR.ADMIN'|translate}}</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li ui-sref-active="active">
+                    <a ui-sref="admin.user"><i class="fa fa-database"></i>{{'SIDEBAR.USER_ADMIN'|translate}}</a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="admin.res"><i class="fa fa-database"></i>{{'SIDEBAR.RES_ADMIN'|translate}}</a>
+                </li>
+            </ul>
+        </li>  -->
+    </ul>
+    <!-- /.sidebar-menu -->
+</section>
+<!-- /.sidebar -->

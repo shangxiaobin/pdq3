@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<portable-config>
+	<config-file path="WEB-INF/classes/config.properties">
+		<replace key="env.flag">test</replace>
+		<replace key="presto.coordinator.server">http://172.170.9.20:9004</replace>
+		<replace key="catalog">hive</replace>
+		<replace key="schema">default</replace>
+		<replace key="user">presto</replace>
+		<replace key="source">presto-web</replace>
+		<replace key="select.limit">5000</replace>
+		<replace key="task.aggregation.concurrency">16</replace>	
+		<replace key="driver">com.mysql.jdbc.Driver</replace>
+		<replace key="url">jdbc:mysql://172.170.9.20:3306/pdq3?useUnicode=true&amp;autoReconnect=true&amp;characterEncoding=UTF-8</replace>
+		<replace key="username">root</replace>
+		<replace key="password">root</replace>		
+	</config-file>	
+</portable-config>

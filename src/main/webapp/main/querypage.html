@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>PrestoQuery</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/jquery-ui.min.css" rel="stylesheet">
+<link href="../css/codemirror.css" rel="stylesheet">
+<link href="../css/show-hint.css" rel="stylesheet">
+<link href="../css/theme.default.css" rel="stylesheet">
+
+<script src="../js/lib/jquery.js"></script>
+<script src="../js/lib/bootstrap.min.js"></script>
+<script src="../js/lib/jquery-ui.min.js"></script>
+<script src="../js/lib/d3.min.js"></script>
+<script src="../js/lib/jquery.tablefix_1.0.1.js"></script>
+<script src="../js/lib/codemirror.js"></script>
+<script src="../js/lib/show-hint.js"></script>
+<script src="../js/lib/sql-hint.js"></script>
+<script src="../js/lib/sql.js"></script>
+<script type="text/javascript" src="../plugins/layer/layer.js"></script>
+<script type="text/javascript" src="../js/lib/pdq.js" charset="utf-8"></script>
+<script src="../js/lib/jquery.tablesorter.js" ></script>
+<script src="../js/lib/jquery.tablesorter.widgets.js"></script>
+
+<style type="text/css">
+.wrappersorter{
+	position: relative;
+	padding: 0 5px;
+	overflow-y: auto;
+}
+.setwin a {
+ 	background-position: -32px -40px;
+}
+.winmax{	
+	background: url(../plugins/layer/skin/default/icon.png) no-repeat;
+	height: 16px;
+	width: 16px;
+	float: right;	
+}
+</style>
+<script type="text/javascript">
+function calcPageHeight(doc) {
+    var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+    var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+    var height  = Math.max(cHeight, sHeight)
+    return height-20
+}
+window.onload = function() {
+	autoHeight();
+}
+function autoHeight(){
+	var height = calcPageHeight(document);
+    parent.document.getElementById(parent.currIframe).style.height = height + 'px'    
+	
+}
+function parseUrl(){
+    var w="winId0";
+	var url = location.search;   
+     if (url.indexOf("?") != -1) {         
+        var str = url.substr(1);           
+        strs = str.split("&");         
+        for(var i = 0; i < strs.length; i++) {  
+        	if(strs[i].split("=")[0]=="w"){
+        		w=strs[i].split("=")[1]
+        	}
+        }          
+     }
+    return w; 
+}
+ $(function () {
+  	  var tips_index;
+	  $("#tips_").hover(function(){
+	   tips_index = layer.tips('使用快捷键[ALT+/]自动补全', '#tips_',{
+			  tips: [2, '#3595CC'],
+			  time: 5000
+			});
+	    },function(){
+	    	layer.close(tips_index);
+	  });
+	   window.editor = CodeMirror.fromTextArea(document.getElementById('query'), {
+	       mode: "text/x-presto",
+	       lineNumbers: true,
+	       extraKeys: {"Alt-/": "autocomplete"}
+	   });
+	                     
+	 　	window.editor.on("change", function (editor, changes) {
+	 　	    while (changes) {
+	 　	      autoHeight();
+	 　	      changes = changes.next;
+	 　	    }
+	 　	});
+	　      CodeMirror.commands.autocomplete = function(cm) {
+	　			CodeMirror.showHint(cm, CodeMirror.hint.sql, parent.showTabs);
+	　	}
+	　    
+	　 $("#query-submit").on('click',function(){
+	     handle_execute(parseUrl());
+	　 })
+  });
+      
+    
+</script>
+</head>
+
+<body style="width:97%;margin:2px auto;">
+	<div id="query-query-tab">
+		<form id="query-form" class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-10">
+					<h4>查询语句</h4>
+					<div style="padding: 5px;">
+						<button type="button" id="query-clear" onclick="query_clear()"
+							class="btn btn-info btn-xs">清空</button>
+						<button type="button" id="query-format" onclick="query_format()"
+							class="btn btn-warning btn-xs">SQL美化</button>
+						<a href="javascript:void(0)"><span class="glyphicon glyphicon-question-sign"  style="" id='tips_' aria-hidden="true"></span></a>
+					</div>
+					<div style="margin: 0;padding: 0;border: 1px #ccc solid;width: 956px;">
+						<textarea class="lined" rows="50" cols="150"  id="query"></textarea>
+					</div>
+					
+				</div>
+			</div>
+			<div class="form-group" style="margin-left: 3px">
+				<div class="col-xs-10" style="width:100%">
+					<button type="button" id="query-submit" class="btn btn-primary">执行查询</button>
+					<button type="button" id="query-explain" onclick="handle_explain()" class="btn btn-success">执行计划</button>
+					<button type="button" id="query-add_bookmark" onclick="query_add_bookmark()" class="btn btn-default">收藏SQL</button>
+					<button type="button" id="save-as-dataset" onclick="save_as_dataset()" class="btn btn-default">高级分析</button>
+					<div class="btn-group" role="group">
+					    <button type="button" id="tsv-download" disabled="disabled" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					      	保存结果
+					      <span class="caret"></span>
+					    </button>
+					    <ul class="dropdown-menu">
+					      <li><a href="javascript:void(0)" onclick="csv_download()">保存为CSV文件</a></li>
+					      <li><a href="javascript:void(0)" onclick="tsv_download()">保存为TSV文件</a></li>
+					    </ul>
+					</div>						
+					<span class="setwin">
+						<a href="javascript:;" id="fullScreen" onclick="full_screen();"  class=" winmax" style="display:none;"></a>	
+					</span>	
+				</div>
+			</div>
+		</form>		
+		<div class="alert alert-danger alert-dismissible"  id="error-msg">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			&nbsp;
+		</div>
+		<div class="alert alert-warning alert-dismissible"  id="warn-msg">
+		</div>
+		<div class="alert alert-success alert-dismissible"  id="success-msg">
+		</div>		
+		<script>
+					$("#error-msg").hide();
+					$("#warn-msg").hide();
+					$("#success-msg").hide();
+				</script>
+
+		<h4>查询结果</h4> 
+		<div id="query-results-tab">
+			<div style="height: 330px; overflow: auto;">
+				<script type="text/javascript">
+					var winId=parseUrl();
+					document.write("<input type='hidden' id='tmp-"+winId+"'/>");
+					document.write("<div id='running-monitor"+winId+"'></div>");
+				</script>
+				<div class="wrappersorter">
+				<table class="tablesorter table table-bordered" id="query-results" ></table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

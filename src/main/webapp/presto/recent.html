@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>PrestoQuery</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/jquery-ui.min.css" rel="stylesheet">
+<link type="text/css"
+	href="../css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet">
+<script src="../js/lib/jquery.js"></script>
+<script src="../js/lib/jquery-ui-1.10.0.custom.min.js"
+	type="text/javascript"></script>
+<script src="../js/lib/bootstrap.min.js"></script>
+<script src="../js/lib/d3.min.js"></script>
+<script type="text/javascript" src="../plugins/layer/layer.js"></script>
+<script type="text/javascript" src="../js/lib/pdq.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+</script>
+
+</head>
+
+<body style="padding: 5px;">
+	<div id="query-histories-tab">
+		搜索: <input type="text" size="20" id="search_query_histories">
+		<script>
+              $('#search_query_histories').keyup(function(){
+                  if ($(this).val()) {
+                      $('#query-histories tr').hide();
+                      $('#query-histories tr td:nth-child(1):contains(' + this.value + ')').parent().show();
+                  } else {
+                      $('#query-histories tr').show();
+                  }
+              });
+         </script>
+		<div style="padding-top: 5px;">
+			<table class="table table-bordered" id="query-histories">
+			
+			</table>
+		</div>
+		<script type="text/javascript">
+               update_query_histories_area();
+         </script>
+	</div>
+</body>
+
+</html>

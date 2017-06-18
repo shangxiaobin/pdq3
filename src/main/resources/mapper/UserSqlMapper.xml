@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geo.presto.dao.UserSqlMapper" >
+  <resultMap id="BaseResultMap" type="com.geo.presto.bean.UserSql" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username_" property="username" jdbcType="VARCHAR" />
+    <result column="sql_" property="sql" jdbcType="VARCHAR" />
+    <result column="desc_" property="desc" jdbcType="VARCHAR" />
+    <result column="create_time_" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, username_, sql_, desc_, create_time_
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.geo.presto.bean.UserSqlExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_sql
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_sql
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_sql
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.geo.presto.bean.UserSqlExample" >
+    delete from user_sql
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.geo.presto.bean.UserSql" >
+    insert into user_sql (id, username_, sql_, 
+      desc_, create_time_)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{sql,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.geo.presto.bean.UserSql" >
+    insert into user_sql
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username_,
+      </if>
+      <if test="sql != null" >
+        sql_,
+      </if>
+      <if test="desc != null" >
+        desc_,
+      </if>
+      <if test="createTime != null" >
+        create_time_,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="sql != null" >
+        #{sql,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.geo.presto.bean.UserSqlExample" resultType="java.lang.Integer" >
+    select count(*) from user_sql
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_sql
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        username_ = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sql != null" >
+        sql_ = #{record.sql,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desc != null" >
+        desc_ = #{record.desc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time_ = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_sql
+    set id = #{record.id,jdbcType=INTEGER},
+      username_ = #{record.username,jdbcType=VARCHAR},
+      sql_ = #{record.sql,jdbcType=VARCHAR},
+      desc_ = #{record.desc,jdbcType=VARCHAR},
+      create_time_ = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geo.presto.bean.UserSql" >
+    update user_sql
+    <set >
+      <if test="username != null" >
+        username_ = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="sql != null" >
+        sql_ = #{sql,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        desc_ = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time_ = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geo.presto.bean.UserSql" >
+    update user_sql
+    set username_ = #{username,jdbcType=VARCHAR},
+      sql_ = #{sql,jdbcType=VARCHAR},
+      desc_ = #{desc,jdbcType=VARCHAR},
+      create_time_ = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
